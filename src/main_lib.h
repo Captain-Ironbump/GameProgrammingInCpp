@@ -1,7 +1,8 @@
 #pragma once
 
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
 // #############################################################################################################
 //                              Defines
 // #############################################################################################################
@@ -82,3 +83,47 @@ void _log(char* prefix, char* msg, TextColor textColor, Args... args)
         SM_ERROR("Assertion HIT!")          \
     }                                       \
 }
+
+
+// #############################################################################################################
+//                              Bump Allocator
+// #############################################################################################################
+struct BumpAllocator
+{
+    size_t capacity;
+    size_t used;
+    char* memory;
+};
+
+BumpAllocator make_bump_allocator(size_t size)
+{
+    BumpAllocator ba = {};
+
+    ba.memory = (char*) malloc(size);
+    if (ba.memory == NULL)
+    {
+        SM_ASSERT(false, "Failed to allocate Memory");
+    }
+    ba.capacity = size;
+    memset(ba.memory, 0, size);
+    return ba;
+}
+
+char* bump_alloc(BumpAllocator* bumpAllocator, size_t size)
+{
+    char* res = nullptr;
+
+    size_t allignedSize = (size + 7) & ~ 7; // This makes sure the first 4 bits are 0
+    if (bumpAllocator->used + allignedSize > bumpAllocator->capacity)
+    {
+        SM_ASSERT(false, "BumpAllocator is full!");
+        
+    }
+    res = bumpAllocator->memory + bumpAllocator->used;
+    bumpAllocator->used += allignedSize;
+    return res;
+}
+
+// #############################################################################################################
+//                              File I/O
+// #############################################################################################################
