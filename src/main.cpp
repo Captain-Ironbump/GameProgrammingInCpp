@@ -8,12 +8,16 @@
 #include "win32_platform.cpp"
 #endif
 
-#include "gl_renderer.h"
+#include "gl_renderer.cpp"
 
 
 int main() 
 {
+    BumpAllocator transientStorage = make_bump_allocator(MB(50));
     platform_create_window(1200, 720, "Test");
+
+    gl_init(&transientStorage);
+
     while (running)
     {
         // Update
