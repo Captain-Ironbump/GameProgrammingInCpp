@@ -1,7 +1,9 @@
 #include "main_lib.h"
+#include "input.h"
 #include "platform.h"
 
 #define APIENTRY
+#define GL_GLEXT_PROTOTYPES
 #include "glcorearb.h"
 
 #ifdef _WIN32
@@ -15,6 +17,8 @@ int main()
 {
     BumpAllocator transientStorage = make_bump_allocator(MB(50));
     platform_create_window(1200, 720, "Test");
+    input.screenSizeX = 1200;
+    input.screenSizeY = 720;
 
     gl_init(&transientStorage);
 
@@ -22,7 +26,8 @@ int main()
     {
         // Update
         platform_update_window();
-
+        gl_render();
+        platform_swap_buffers();
     }
     return 0;
 }
