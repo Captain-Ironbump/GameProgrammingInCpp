@@ -43,8 +43,8 @@ bool gl_init(BumpAllocator* transientStorage)
     GLuint fragShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
     int fileSize = 0;
-    char* vertShader = read_file("/assets/shaders/quad.vert", &fileSize, transientStorage);
-    char* fragShader = read_file("/assets/shaders/quad.frag", &fileSize, transientStorage);
+    char* vertShader = read_file("assets/shaders/quad.vert", &fileSize, transientStorage);
+    char* fragShader = read_file("assets/shaders/quad.frag", &fileSize, transientStorage);
 
     if (!vertShader || !fragShader)
     {
@@ -58,18 +58,6 @@ bool gl_init(BumpAllocator* transientStorage)
     glCompileShader(vertShaderID);
     glCompileShader(fragShaderID);
 
-    // Test if Vertex shader compiled successfully
-    {
-        int success;
-        char shaderLog[2048] = {};
-
-        glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(vertShaderID, 2048, 0, shaderLog);
-            SM_ASSERT(false, "Failed to compile Vertex Shades %s", shaderLog);
-        }
-    }
 
     // Test if Fragment shader compiled successfully
     {
@@ -81,6 +69,19 @@ bool gl_init(BumpAllocator* transientStorage)
         {
             glGetShaderInfoLog(fragShaderID, 2048, 0, shaderLog);
             SM_ASSERT(false, "Failed to compile Fragment Shades %s", shaderLog);
+        }
+    }
+
+    // Test if Vertex shader compiled successfully
+    {
+        int success;
+        char shaderLog[2048] = {};
+
+        glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(vertShaderID, 2048, 0, shaderLog);
+            SM_ASSERT(false, "Failed to compile Vertex Shades %s", shaderLog);
         }
     }
 

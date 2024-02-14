@@ -112,7 +112,7 @@ bool platform_create_window(int width, int height, char* title)
         }
         
         wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)platform_load_gl_function("wglChoosePixelFormatARB");
-        wglCreateContextAttributesARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)platform_load_gl_function("wglCreateContextAttributesARB");
+        wglCreateContextAttributesARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)platform_load_gl_function("wglCreateContextAttribsARB");
 
         if (!wglChoosePixelFormatARB || !wglCreateContextAttributesARB)
         {
