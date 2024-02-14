@@ -44,7 +44,7 @@ enum TextColor
     TEXT_COLOR_COUNT
 };
 
-template <typename... Args>
+template <typename ...Args>
 void _log(char *prefix, char *msg, TextColor textColor, Args... args)
 {
     static char *TextColorTable[TEXT_COLOR_COUNT] =
@@ -71,7 +71,7 @@ void _log(char *prefix, char *msg, TextColor textColor, Args... args)
     sprintf(formatBuffer, "%s %s %s \033[0m", TextColorTable[textColor], prefix, msg);
 
     char textBuffer[8192] = {};
-    sprintf(textBuffer, "%s", formatBuffer, args...);
+    sprintf(textBuffer, formatBuffer, args...);
 
     puts(textBuffer);
 }
